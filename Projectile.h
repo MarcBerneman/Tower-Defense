@@ -12,8 +12,8 @@ class Projectile : public QObject, public myPixmapItem
 {
     Q_OBJECT
 public:
-    Projectile(QString image, int speed, int damage, QPointF startPos, QPointF target, QList<Enemy *> * vulnerable_enemie, QGraphicsItem * parent = 0);
-    Enemy * enemy_hit();
+    Projectile(QString image, int speed, int damage, QPointF startPos, QPointF target, QList<Enemy *> *vulnerable_enemie, QGraphicsItem * parent = 0);
+    Enemy *enemy_hit();
 private:
     int speed;
     int damage;

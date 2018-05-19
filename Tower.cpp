@@ -42,7 +42,7 @@ void Tower::find_target()
 
     int n = potential_enemies->size();
     double min_distance = 10000;
-    Enemy * closest_enemy = NULL;
+    Enemy * closest_enemy = nullptr;
     for(int i = 0 ; i < n ; i++) {
         Enemy * e = potential_enemies->at(i);
         if(attack_zone->collidesWithItem(e)) {

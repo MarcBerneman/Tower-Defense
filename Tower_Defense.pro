@@ -30,7 +30,11 @@ SOURCES += \
     Enemy.cpp \
     myPixmapItem.cpp \
     Projectile.cpp \
-    HealthBar.cpp
+    HealthBar.cpp \
+    GroundEnemy.cpp \
+    AirEnemy.cpp \
+    GroundTurret.cpp \
+    AirTurret.cpp
 HEADERS += \
     Constants.h \
     Game.h \
@@ -38,7 +42,11 @@ HEADERS += \
     Enemy.h \
     myPixmapItem.h \
     Projectile.h \
-    HealthBar.h
+    HealthBar.h \
+    GroundEnemy.h \
+    AirEnemy.h \
+    GroundTurret.h \
+    AirTurret.h
 
 RESOURCES += \
     Recourses.qrc

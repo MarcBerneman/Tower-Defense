@@ -2,7 +2,10 @@
 #include "Constants.h"
 #include "Tower.h"
 #include "Enemy.h"
-#include "HealthBar.h"
+#include "GroundEnemy.h"
+#include "AirEnemy.h"
+#include "GroundTurret.h"
+#include "AirTurret.h"
 
 Game::Game() // inherits from QGraphicsView
 {
@@ -20,8 +23,8 @@ Game::Game() // inherits from QGraphicsView
 }
 
 void Game::start_game() {
-    new Tower(60,500,QPointF(260,260),tower1,&ground_enemies);
-    new Tower(60,500,QPointF(270,100),tower1,&ground_enemies);
-    Enemy *  e = new GroundEnemy();
-    ground_enemies << e;
+    new GroundTurret();
+    new AirTurret();
+    ground_enemies << new GroundEnemy();
+    air_enemies << new AirEnemy();
 }

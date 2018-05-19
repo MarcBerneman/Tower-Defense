@@ -56,5 +56,5 @@ Enemy *Projectile::enemy_hit()
             return e;
         }
     }
-    return NULL;
+    return nullptr;
 }

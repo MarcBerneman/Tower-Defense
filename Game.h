@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include "Enemy.h"
-#include "GroundEnemy.h"
 #include <QGraphicsView>
 #include <QMouseEvent>
 
@@ -13,6 +12,7 @@ public:
     QGraphicsScene * scene;
 
     QList<Enemy *> ground_enemies;
+    QList<Enemy *> air_enemies;
     void start_game();
 
 };
