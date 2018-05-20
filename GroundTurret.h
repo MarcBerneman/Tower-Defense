@@ -7,6 +7,7 @@ class GroundTurret : public Tower
 {
 public:
     GroundTurret();
+    void spawn_projectile() override;
 };
 
 #endif // GROUNDTURRET_H

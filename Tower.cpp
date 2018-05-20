@@ -26,7 +26,7 @@ void Tower::shoot()
 {
     find_target();
     if(has_target) {
-        new Projectile(bullet1,200,30,pos(),target,potential_enemies);
+        spawn_projectile();
     }
 }
 
@@ -55,7 +55,7 @@ void Tower::find_target()
     }
     if(closest_enemy) {
         has_target = true;
-        target = closest_enemy->pos();
+        target = closest_enemy;
     }
     else
         has_target = false;
@@ -76,3 +76,17 @@ QPolygonF Tower::makeOctagon(int octagon_scalefactor)
     return polygon;
 }
 
+void Tower::setTarget(Enemy *value)
+{
+    target = value;
+}
+
+QList<Enemy *> *Tower::getPotential_enemies() const
+{
+    return potential_enemies;
+}
+
+Enemy *Tower::getTarget() const
+{
+    return target;
+}

@@ -9,7 +9,7 @@ Enemy::Enemy(QString image, QPointF spawn, double speed, QGraphicsItem *parent) 
     // Code based on tutorial
     setPos(spawn);
     this->speed = speed;
-    path << QPointF(250,250) << QPointF(200,100) << QPointF(260,130) << QPointF(260,260);
+    path << QPointF(250,250) << QPointF(200,100) << QPointF(260,130) << QPointF(260,260) << QPointF(700,500) << QPointF(700,200);
     path_index = 0;
     dest = path[path_index];
     setRotation(dest);

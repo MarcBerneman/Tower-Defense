@@ -2,18 +2,18 @@
 #include <qmath.h>
 #include <QGraphicsScene>
 
-Projectile::Projectile(QString image, int speed, int damage, QPointF startPos, QPointF target, QList<Enemy *> * vulnerable_enemies, QGraphicsItem * parent) : myPixmapItem(image,parent)
+Projectile::Projectile(QString image, int speed, int damage, Tower * tower, bool homing, QGraphicsItem * parent) : myPixmapItem(image,parent)
 {
     // Code based on tutorial
 
     this->speed = speed;
-    this->target = target;
     this->damage = damage;
-    this->vulnerable_enemies = vulnerable_enemies;
-    setPos(startPos);
-    setRotation(target);
-    QLineF ln(pos(),target);
-    angle = -qDegreesToRadians(ln.angle());
+    this->target = tower->getTarget();
+    this->homing = homing;
+    vulnerable_enemies = tower->getPotential_enemies();
+
+    setPos(tower->pos());
+    setAngle();
 
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
@@ -23,12 +23,14 @@ Projectile::Projectile(QString image, int speed, int damage, QPointF startPos, Q
 void Projectile::move()
 {
     // Code based on tutorial
-
+    if(homing)
+        setAngle();
     double dx = qCos(angle);
     double dy = qSin(angle);
     setPos(x()+dx,y()+dy);
     Enemy * e = enemy_hit();
     if(e) {
+        e->reduceHP(damage);
         scene()->removeItem(this);
         delete this;
         if(e->getHealthBar()->getHP() <= 0) {
@@ -44,7 +46,18 @@ void Projectile::move()
     }
 }
 
-Enemy *Projectile::enemy_hit()
+void Projectile::setAngle()
+{
+    if(!vulnerable_enemies->contains(target))
+        target = nullptr;
+    if(target) {
+        setRotation(target->pos());
+        QLineF ln(pos(),target->pos());
+        angle = -qDegreesToRadians(ln.angle());
+    }
+}
+
+Enemy * Projectile::enemy_hit()
 {
     // Code based on tutorial
     // Changed from colliding_items with dynamic casting to specific list (see Tower code)
@@ -52,9 +65,13 @@ Enemy *Projectile::enemy_hit()
     for(int i = 0 ; i < n ; i++) {
         Enemy * e = vulnerable_enemies->at(i);
         if(collidesWithItem(e)) {
-            e->reduceHP(damage);
             return e;
         }
     }
     return nullptr;
+}
+
+QList<Enemy *> * Projectile::getVulnerable_enemies() const
+{
+    return vulnerable_enemies;
 }
