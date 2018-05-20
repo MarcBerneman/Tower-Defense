@@ -1,6 +1,10 @@
 #include "AirEnemy.h"
 
-AirEnemy::AirEnemy() : Enemy(":images/enemy.png",QPointF(800,0),0.5)
+const QString image(":images/enemy.png");
+const QPointF spawn(800,0);
+const double enemy_speed = 1.5;
+
+AirEnemy::AirEnemy() : Enemy(image,spawn,enemy_speed)
 {
 
 }

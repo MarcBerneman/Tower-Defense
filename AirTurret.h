@@ -6,7 +6,7 @@
 class AirTurret : public Tower
 {
 public:
-    AirTurret();
+    AirTurret(QPointF pos);
     void spawn_projectile() override;
 };
 

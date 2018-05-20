@@ -6,7 +6,7 @@
 class GroundTurret : public Tower
 {
 public:
-    GroundTurret();
+    GroundTurret(QPointF pos);
     void spawn_projectile() override;
 };
 

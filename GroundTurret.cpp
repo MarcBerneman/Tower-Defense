@@ -4,12 +4,20 @@
 
 extern Game * game;
 
-GroundTurret::GroundTurret() : Tower(60,500,QPointF(260,260),tower1,&(game->ground_enemies))
+const int octagon_scale_factor = 120;
+const int shooting_timer = 250;
+const QString turret_image(":images/tower");
+
+const QString projectile_image(":images/bullet");
+const int bullet_speed = 2;
+const int bullet_damage = 30;
+
+GroundTurret::GroundTurret(QPointF pos) : Tower(octagon_scale_factor,shooting_timer,pos,turret_image,&(game->ground_enemies))
 {
 
 }
 
 void GroundTurret::spawn_projectile()
 {
-    new Projectile(bullet1,30,20,this,true);
+    new Projectile(projectile_image,bullet_speed,bullet_damage,this,true);
 }

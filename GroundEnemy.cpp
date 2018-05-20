@@ -1,6 +1,10 @@
 #include "GroundEnemy.h"
 
-GroundEnemy::GroundEnemy() : Enemy(":images/enemy.png",QPointF(800,600),1.3)
+const QString image(":images/enemy.png");
+const QPointF spawn(800,600);
+const double enemy_speed = 1.3;
+
+GroundEnemy::GroundEnemy() : Enemy(image,spawn,enemy_speed)
 {
 
 }

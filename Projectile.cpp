@@ -1,6 +1,7 @@
 #include "Projectile.h"
 #include <qmath.h>
 #include <QGraphicsScene>
+#include "Constants.h"
 
 Projectile::Projectile(QString image, int speed, int damage, Tower * tower, bool homing, QGraphicsItem * parent) : myPixmapItem(image,parent)
 {
@@ -17,7 +18,7 @@ Projectile::Projectile(QString image, int speed, int damage, Tower * tower, bool
 
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-    timer->start(1000/speed);
+    timer->start(PROJECTILE_TIMER);
 }
 
 void Projectile::move()
@@ -25,8 +26,8 @@ void Projectile::move()
     // Code based on tutorial
     if(homing)
         setAngle();
-    double dx = qCos(angle);
-    double dy = qSin(angle);
+    double dx = speed*qCos(angle);
+    double dy = speed*qSin(angle);
     setPos(x()+dx,y()+dy);
     Enemy * e = enemy_hit();
     if(e) {
