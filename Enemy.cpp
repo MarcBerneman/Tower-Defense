@@ -1,10 +1,9 @@
 #include "Enemy.h"
-#include "Constants.h"
+#include "Game.h"
 #include <QTimer>
 #include <qmath.h>
-#include <QGraphicsScene>
 
-Enemy::Enemy(QString image, QPointF spawn, double speed, QGraphicsItem *parent) : myPixmapItem(image,parent)
+Enemy::Enemy(QString image, QPointF spawn, double speed, int health, QGraphicsItem *parent) : myPixmapItem(image,parent)
 {
     // Code based on tutorial
     setPos(spawn);
@@ -14,7 +13,7 @@ Enemy::Enemy(QString image, QPointF spawn, double speed, QGraphicsItem *parent) 
     dest = path[path_index];
     setRotation(dest);
 
-    hp = new HealthBar(500);
+    hp = new HealthBar(health);
     hp->setPos(pos());
 
     QTimer * timer = new QTimer();

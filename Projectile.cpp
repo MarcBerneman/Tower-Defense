@@ -1,7 +1,7 @@
 #include "Projectile.h"
 #include <qmath.h>
 #include <QGraphicsScene>
-#include "Constants.h"
+#include "Game.h"
 
 Projectile::Projectile(QString image, int speed, int damage, Tower * tower, bool homing, QGraphicsItem * parent) : myPixmapItem(image,parent)
 {

@@ -34,9 +34,11 @@ SOURCES += \
     GroundEnemy.cpp \
     AirEnemy.cpp \
     GroundTurret.cpp \
-    AirTurret.cpp
+    AirTurret.cpp \
+    Button.cpp \
+    GroundTurretButton.cpp \
+    AirTurretButton.cpp
 HEADERS += \
-    Constants.h \
     Game.h \
     Tower.h \
     Enemy.h \
@@ -46,7 +48,12 @@ HEADERS += \
     GroundEnemy.h \
     AirEnemy.h \
     GroundTurret.h \
-    AirTurret.h
+    AirTurret.h \
+    Button.h \
+    GroundTurretButton.h \
+    AirTurretButton.h \
+    GroundTurretConstants.h \
+    AirTurretConstants.h
 
 RESOURCES += \
-    Recourses.qrc
+    recourses.qrc

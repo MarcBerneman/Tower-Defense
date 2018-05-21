@@ -11,10 +11,11 @@ Tower::Tower(int octagon_scalefactor, int shooting_timer, QPointF position, QStr
     // Code based on tutorial
 
     setPixmap(QPixmap(image));
-    attack_zone = new QGraphicsPolygonItem(makeOctagon(octagon_scalefactor),this);
+    attack_zone = new QGraphicsPolygonItem(makeOctagon(pos(),octagon_scalefactor),this);
     setPos(position);
 
     this->potential_enemies = potential_enemies;
+    target = nullptr;
 
     QTimer * timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(shoot()));
@@ -25,7 +26,7 @@ Tower::Tower(int octagon_scalefactor, int shooting_timer, QPointF position, QStr
 void Tower::shoot()
 {
     find_target();
-    if(has_target) {
+    if(target) {
         spawn_projectile();
     }
 }
@@ -54,14 +55,15 @@ void Tower::find_target()
         }
     }
     if(closest_enemy) {
-        has_target = true;
         target = closest_enemy;
     }
-    else
-        has_target = false;
+    else {
+        target = nullptr;
+    }
+
 }
 
-QPolygonF Tower::makeOctagon(int octagon_scalefactor)
+QPolygonF Tower::makeOctagon(QPointF pos, int octagon_scalefactor)
 {
     // Code based on tutorial
 
@@ -69,7 +71,7 @@ QPolygonF Tower::makeOctagon(int octagon_scalefactor)
     points << QPointF(1,0) << QPointF(2,0) << QPointF(3,1) << QPointF(3,2) << QPointF(2,3) << QPointF(1,3) << QPointF(0,2) << QPointF(0,1);
     for(int i = 0; i < points.length() ; i++)
         points[i] *= octagon_scalefactor;
-    QLineF ln(QPointF(1.5,1.5)*octagon_scalefactor,pos()); //this function is not static because it makes use of getCenter()
+    QLineF ln(QPointF(1.5,1.5)*octagon_scalefactor,pos); //this function is not static because it makes use of getCenter()
     for(int i = 0; i < points.length() ; i++)
         points[i] += QPointF(ln.dx(),ln.dy());
     QPolygonF polygon(points);

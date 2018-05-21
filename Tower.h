@@ -16,6 +16,8 @@ class Tower : public QObject, public myPixmapItem
 public:
     Tower(int octagon_scalefactor, int shooting_timer, QPointF position, QString image, QList<Enemy *> *potential_enemies, QGraphicsItem * parent = 0);
     virtual void spawn_projectile() = 0;
+    static QPolygonF makeOctagon(QPointF pos, int octagon_scalefactor);
+
     Enemy *getTarget() const;
     void setTarget(Enemy *value);
     QList<Enemy *> * getPotential_enemies() const;
@@ -24,8 +26,6 @@ public slots:
     void find_target();
 private:
     QGraphicsPolygonItem * attack_zone;
-    QPolygonF makeOctagon(int octagon_scalefactor);
-    bool has_target;
     Enemy * target;
     QList<Enemy *> * potential_enemies;
 };

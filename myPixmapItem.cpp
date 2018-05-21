@@ -1,5 +1,4 @@
 #include "myPixmapItem.h"
-#include "Constants.h"
 #include "Game.h"
 
 extern Game * game;

@@ -1,7 +1,11 @@
 <RCC>
     <qresource prefix="/images">
-        <file>tower.png</file>
-        <file>enemy.png</file>
         <file>bullet.png</file>
+        <file>button.png</file>
+        <file>enemy.png</file>
+        <file>tower.png</file>
+    </qresource>
+    <qresource prefix="/textfiles">
+        <file>map.txt</file>
     </qresource>
 </RCC>
