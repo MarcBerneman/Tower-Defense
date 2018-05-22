@@ -10,7 +10,7 @@ class Enemy : public QObject, public myPixmapItem
 {
     Q_OBJECT
 public:
-    Enemy(QString image, QPointF spawn, double speed, int health, QGraphicsItem * parent = 0);
+    Enemy(QString image, double speed, int health, QGraphicsItem * parent = 0);
     ~Enemy();
     void rotateToPoint(QPointF p);
     QPointF getDest() const;
@@ -23,7 +23,7 @@ private:
     double speed;
     HealthBar * hp;
 
-    QList<QPointF> path;
+    QVector<QPointF> path;
     QPointF dest;
     int path_index;
 };

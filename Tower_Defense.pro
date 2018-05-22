@@ -37,7 +37,8 @@ SOURCES += \
     AirTurret.cpp \
     Button.cpp \
     GroundTurretButton.cpp \
-    AirTurretButton.cpp
+    AirTurretButton.cpp \
+    Grid.cpp
 HEADERS += \
     Game.h \
     Tower.h \
@@ -53,7 +54,8 @@ HEADERS += \
     GroundTurretButton.h \
     AirTurretButton.h \
     GroundTurretConstants.h \
-    AirTurretConstants.h
+    AirTurretConstants.h \
+    Grid.h
 
 RESOURCES += \
     recourses.qrc

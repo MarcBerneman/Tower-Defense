@@ -5,17 +5,11 @@
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include "Button.h"
-
-const int UNOCCUPIED = 0;
-const int WALL = 1;
-const int OCCUPIED_WALL = 2;
-const int FIRST_WAYPOINT = 3;
+#include "Grid.h"
 
 //default values
 const int SCREENWIDTH = 800;
 const int SCREENHEIGHT = 600;
-const int N_GRID = 10;
-const int M_GRID = 5;
 
 const int ENEMYTIMER = 10;
 const int PROJECTILE_TIMER = 10;
@@ -30,12 +24,17 @@ public:
     QList<Enemy *> ground_enemies;
     QList<Enemy *> air_enemies;
 
-    int occupied[N_GRID][M_GRID];
+    //defaults
+    int N_GRID = 10;
+    int M_GRID = 5;
     int grid_width = SCREENWIDTH/N_GRID;
     int grid_height = SCREENHEIGHT/M_GRID;
+
+    Grid * grid;
+
     Button * build_mode;
 
-    void readFile(QString filename);
+    void setGrid(QString filename);
     void start_game();
     void mousePressEvent(QMouseEvent * event) override;
     void mouseMoveEvent(QMouseEvent *event) override;

@@ -3,14 +3,16 @@
 #include <QTimer>
 #include <qmath.h>
 
-Enemy::Enemy(QString image, QPointF spawn, double speed, int health, QGraphicsItem *parent) : myPixmapItem(image,parent)
+extern Game * game;
+
+Enemy::Enemy(QString image, double speed, int health, QGraphicsItem *parent) : myPixmapItem(image,parent)
 {
     // Code based on tutorial
-    setPos(spawn);
     this->speed = speed;
-    path << QPointF(250,250) << QPointF(200,100) << QPointF(260,130) << QPointF(260,260) << QPointF(700,500) << QPointF(700,200);
-    path_index = 0;
+    path = game->grid->getPath();
+    path_index = 1;
     dest = path[path_index];
+    setPos(path[0]);
     setRotation(dest);
 
     hp = new HealthBar(health);

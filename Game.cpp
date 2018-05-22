@@ -6,16 +6,13 @@
 #include "Button.h"
 #include "GroundTurretButton.h"
 #include "AirTurretButton.h"
-
 #include <QTextStream>
-#include <QDebug>
 
 
 Game::Game() // inherits from QGraphicsView
 {
     // Code based on tutorial
 
-    readFile(":textfiles/map.txt");
     // Configure the Scene
     scene = new QGraphicsScene();
     scene->setSceneRect(0,0,SCREENWIDTH,SCREENHEIGHT);
@@ -30,23 +27,29 @@ Game::Game() // inherits from QGraphicsView
     cursor = nullptr;
     build_mode = nullptr;
 
-    for(int i = 0 ; i < N_GRID ; i++)
-        for(int j = 0 ; j < M_GRID ; j++)
-            occupied[i][j] = UNOCCUPIED;
-
+    setGrid(":textfiles/map.txt");
     initialise_walls();
 }
 
-void Game::readFile(QString filename)
+void Game::setGrid(QString filename)
 {
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
     QTextStream in(&file);
-    int x;
-    in >> x;
-    qDebug() << x;
-    in >> x;
-    qDebug() << x;
+    in >> M_GRID;
+    in >> N_GRID;
+    int nr_path_points;
+    in >> nr_path_points;
+    grid_width = SCREENWIDTH/M_GRID;
+    grid_height = SCREENHEIGHT/N_GRID;
+
+    grid = new Grid(N_GRID,M_GRID);
+    int value;
+    for(int i = 0 ; i < N_GRID*M_GRID ; i++) {
+        in >> value;
+        grid->set(i,value);
+    }
+    grid->setPathFromGrid(nr_path_points);
 }
 
 void Game::start_game() {
@@ -60,9 +63,18 @@ void Game::mousePressEvent(QMouseEvent *event)
 {
     if(build_mode) {
         QPoint position = mapToGrid(event->pos());
-        build_mode->build_tower(position);
-        build_mode = nullptr;
-        clearCursor();
+        int state = grid->getState(position);
+        if((state != WALL) || state == OCCUPIED_WALL) {
+            build_mode = nullptr;
+            clearCursor();
+            return;
+        }
+        else {
+            build_mode->build_tower(position);
+            build_mode = nullptr;
+            grid->setState(position,OCCUPIED_WALL);
+            clearCursor();
+        }
     }
     else
         QGraphicsView::mousePressEvent(event);
@@ -92,12 +104,9 @@ void Game::clearCursor()
 
 void Game::initialise_walls()
 {
-    occupied[1][0] = WALL;
-    occupied[4][3] = WALL;
-    occupied[4][4] = WALL;
     for(int i = 0 ; i < N_GRID ; i++)
         for(int j = 0 ; j < M_GRID ; j++)
-            if(occupied[i][j] == WALL) {
+            if(grid->get(i,j) == WALL) {
                 QGraphicsRectItem * cell = new QGraphicsRectItem(j*grid_width,i*grid_height,grid_width,grid_height);
                 cell->setPen(Qt::NoPen);
                 cell->setBrush(Qt::Dense3Pattern);
