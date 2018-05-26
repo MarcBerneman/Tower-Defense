@@ -1,9 +1,9 @@
 #ifndef GROUNDTURRETBUTTON_H
 #define GROUNDTURRETBUTTON_H
 
-#include "Button.h"
+#include "TowerButton.h"
 
-class GroundTurretButton : public Button
+class GroundTurretButton : public TowerButton
 {
 public:
     GroundTurretButton(QGraphicsItem * parent = 0);

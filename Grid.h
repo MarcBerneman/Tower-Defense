@@ -3,13 +3,14 @@
 
 #include <QVector>
 #include <QPointF>
+#include <QGraphicsRectItem>
 
 const int UNOCCUPIED = 0;
 const int WALL = 1;
 const int OCCUPIED_WALL = 2;
 const int SPAWN = 3;
 
-class Grid
+class Grid : public QGraphicsRectItem //by making this a rect, I can constrict mouseMoveEvent to this rectangle
 {
 public:
     Grid(int N_GRID, int M_GRID);
@@ -22,6 +23,8 @@ public:
     void setPathFromGrid(int nr_points);
     QPointF getCoordinates(int i, int j);
     QPoint getGridPos(QPointF pos);
+    void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
+    void mouseMoveEvent(QPoint pos);
 private:
     int N_GRID, M_GRID;
     int grid_width;
@@ -29,6 +32,7 @@ private:
     QVector<int> grid;
     QVector<QPointF> path;
     void initialize_grid();
+    QPoint mapToGrid(QPointF pos);
 };
 
 #endif // GRID_H

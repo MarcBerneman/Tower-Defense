@@ -17,11 +17,17 @@ public:
 
     void reduceHP(int damage);
     HealthBar *getHealthBar() const;
+    int getCash_value() const;
+    void setCash_value(int value);
+signals:
+    void killed();
+    void reachedEnd();
 public slots:
     void move();
 private:
     double speed;
     HealthBar * hp;
+    int cash_value = 0;
 
     QVector<QPointF> path;
     QPointF dest;

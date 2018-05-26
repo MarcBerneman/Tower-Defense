@@ -35,8 +35,10 @@ void Enemy::move()
     QLineF ln(pos(),dest);
     if(ln.length()  < 5) {
         path_index++;
-        if(path_index >= path.length())
+        if(path_index >= path.length()) {
+            emit reachedEnd();
             return;
+        }
         dest = path[path_index];
         ln.setP2(dest);
         setRotation(dest);
@@ -45,6 +47,16 @@ void Enemy::move()
     double dy = speed*qSin(qDegreesToRadians(-ln.angle()));
     setPos(x()+dx,y()+dy);
     hp->setPos(pos()-QPointF(0,HP_BAR_RELATIVE_VERTICAL_POSITION*getHeight()));
+}
+
+int Enemy::getCash_value() const
+{
+    return cash_value;
+}
+
+void Enemy::setCash_value(int value)
+{
+    cash_value = value;
 }
 
 HealthBar *Enemy::getHealthBar() const
@@ -59,4 +71,6 @@ QPointF Enemy::getDest() const
 
 void Enemy::reduceHP(int damage) {
     hp->reduceHP(damage);
+    if(hp <= 0)
+        emit killed();
 }

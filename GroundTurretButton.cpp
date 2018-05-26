@@ -2,7 +2,7 @@
 #include "GroundTurretButton.h"
 #include "GroundTurretConstants.h"
 
-GroundTurretButton::GroundTurretButton(QGraphicsItem * parent) : Button(button_image,button_position,turret_image,parent)
+GroundTurretButton::GroundTurretButton(QGraphicsItem * parent) : TowerButton(button_image,button_position,turret_image,parent)
 {
 
 }

@@ -35,10 +35,10 @@ SOURCES += \
     AirEnemy.cpp \
     GroundTurret.cpp \
     AirTurret.cpp \
-    Button.cpp \
     GroundTurretButton.cpp \
     AirTurretButton.cpp \
     Grid.cpp \
+    TowerButton.cpp \
     Inventory.cpp
 HEADERS += \
     Game.h \
@@ -51,12 +51,12 @@ HEADERS += \
     AirEnemy.h \
     GroundTurret.h \
     AirTurret.h \
-    Button.h \
     GroundTurretButton.h \
     AirTurretButton.h \
     GroundTurretConstants.h \
     AirTurretConstants.h \
     Grid.h \
+    TowerButton.h \
     Inventory.h
 
 RESOURCES += \

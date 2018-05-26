@@ -11,6 +11,6 @@ const int bullet_speed = 2;
 const int bullet_damage = 30;
 
 const QString button_image(":images/button.png");
-const QPointF button_position(0,0);
+const QPointF button_position(-80,0);
 
 #endif // GROUNDTURRETCONSTANTS_H

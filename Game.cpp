@@ -3,7 +3,7 @@
 #include "AirEnemy.h"
 #include "GroundTurret.h"
 #include "AirTurret.h"
-#include "Button.h"
+#include "TowerButton.h"
 #include "GroundTurretButton.h"
 #include "AirTurretButton.h"
 #include <QTextStream>
@@ -15,16 +15,11 @@ Game::Game() // inherits from QGraphicsView
 
     // Configure the Scene
     scene = new QGraphicsScene();
-    scene->setSceneRect(-100,0,SCREENWIDTH+100,SCREENHEIGHT);
+    scene->setSceneRect(-MENUWIDTH,0,SCREENWIDTH+MENUWIDTH,SCREENHEIGHT);
     setScene(scene); // Associate this view to the newly created scene
 
-    //Set (0,0) of scene next to MENU
-    setTransformationAnchor(QGraphicsView::);
-    translate(-100,0);
-
-
     // Set size and disable scrollbars
-    setFixedSize(SCREENWIDTH+100,SCREENHEIGHT);
+    setFixedSize(SCREENWIDTH+MENUWIDTH,SCREENHEIGHT);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -34,6 +29,14 @@ Game::Game() // inherits from QGraphicsView
 
     setGrid(":textfiles/map.txt");
     initialise_walls();
+    scene->addItem(grid);
+
+    inventory = new Inventory();
+    inventory->setPos(-240,SCREENHEIGHT-120);
+    inventory->setCash(1000);
+    inventory->setLives(5);
+    inventory->printInventory();
+    scene->addItem(inventory);
 }
 
 void Game::setGrid(QString filename)
@@ -64,34 +67,6 @@ void Game::start_game() {
     air_enemies << new AirEnemy();
 }
 
-void Game::mousePressEvent(QMouseEvent *event)
-{
-    if(build_mode) {
-        QPoint position = mapToGrid(event->pos());
-        int state = grid->getState(position);
-        if((state != WALL) || state == OCCUPIED_WALL) {
-            build_mode = nullptr;
-            clearCursor();
-            return;
-        }
-        else {
-            build_mode->build_tower(position);
-            build_mode = nullptr;
-            grid->setState(position,OCCUPIED_WALL);
-            clearCursor();
-        }
-    }
-    else
-        QGraphicsView::mousePressEvent(event);
-}
-
-void Game::mouseMoveEvent(QMouseEvent *event)
-{
-    if(cursor) {
-        QPoint position = mapToGrid(event->pos());
-        cursor->setPos(position);
-    }
-}
 
 void Game::setCursor(QString image)
 {
@@ -119,11 +94,38 @@ void Game::initialise_walls()
             }
 }
 
-QPoint Game::mapToGrid(QPoint pos)
+QPoint Game::mapToGridRectItem(QPoint pos)
 {
-    int x = pos.x();
-    int y = pos.y();
-    x = (x/grid_width)*grid_width + grid_width/2;
-    y = (y/grid_height)*grid_height + grid_height/2;
-    return QPoint(x,y);
+    QPoint out = pos - QPoint(MENUWIDTH,0);
+    return out;
 }
+
+void Game::mouseMoveEvent(QMouseEvent *event) //GraphicsView coordinates have to be shifted in order to be correctly interpreted
+{
+    QPoint grid_coordinates = mapToGridRectItem(event->pos());
+    if(grid_coordinates.x() >= 0)
+        grid->mouseMoveEvent(grid_coordinates); // inside game attach to grid
+    else if(cursor)
+        cursor->setPos(grid_coordinates); // in menu can be freefloating
+}
+
+int Game::getGrid_width() const
+{
+    return grid_width;
+}
+
+int Game::getGrid_height() const
+{
+    return grid_height;
+}
+
+int Game::getM_GRID() const
+{
+    return M_GRID;
+}
+
+int Game::getN_GRID() const
+{
+    return N_GRID;
+}
+

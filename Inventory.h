@@ -1,10 +1,12 @@
-#ifndef WALLET_H
-#define WALLET_H
+#ifndef INVENTORY_H
+#define INVENTORY_H
 
-#include <QGraphicsRectItem>
+#include <QObject>
+#include <QGraphicsSimpleTextItem>
 
-class Inventory : public QGraphicsRectItem
+class Inventory : public QObject, public QGraphicsSimpleTextItem
 {
+    Q_OBJECT
 public:
     Inventory();
     void addCash(int cash);
@@ -16,11 +18,11 @@ public:
 
     int getCash() const;
     void setCash(int value);
-
 private:
     int lives;
     int cash;
-
+public slots:
+    void printInventory();
 };
 
-#endif // WALLET_H
+#endif // INVENTORY_H

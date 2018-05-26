@@ -2,7 +2,7 @@
 #include "AirTurretButton.h"
 #include "AirTurretConstants.h"
 
-AirTurretButton::AirTurretButton(QGraphicsItem *parent) : Button(button_image,button_position,turret_image,parent)
+AirTurretButton::AirTurretButton(QGraphicsItem *parent) : TowerButton(button_image,button_position,turret_image,parent)
 {
 
 }

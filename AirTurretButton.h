@@ -1,9 +1,9 @@
 #ifndef AIRTURRETBUTTON_H
 #define AIRTURRETBUTTON_H
 
-#include "Button.h"
+#include "TowerButton.h"
 
-class AirTurretButton : public Button
+class AirTurretButton : public TowerButton
 {
 public:
     AirTurretButton(QGraphicsItem * parent = 0);

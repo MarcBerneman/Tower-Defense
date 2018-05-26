@@ -1,8 +1,19 @@
 #include "Inventory.h"
+#include <QFont>
 
 Inventory::Inventory()
 {
+    setFont(QFont("Calibri",24,QFont::Bold));
+}
 
+void Inventory::printInventory() {
+    QString lives;
+    QString cash;
+    lives.setNum(this->lives);
+    cash.setNum(this->cash);
+    QString txt;
+    txt += "Lives: " + lives + "\n" + "Money: " + cash;
+    setText(txt);
 }
 
 void Inventory::addCash(int cash)

@@ -1,6 +1,8 @@
 #include "Grid.h"
 #include "Game.h"
 
+extern Game * game;
+
 Grid::Grid(int N_GRID, int M_GRID)
 {
     this->N_GRID = N_GRID;
@@ -8,6 +10,8 @@ Grid::Grid(int N_GRID, int M_GRID)
     grid_width = SCREENWIDTH/M_GRID;
     grid_height = SCREENHEIGHT/N_GRID;
     initialize_grid();
+    setRect(0,0,SCREENWIDTH,SCREENHEIGHT);
+    setPen(Qt::NoPen);
 }
 
 void Grid::initialize_grid()
@@ -76,3 +80,40 @@ QPoint Grid::getGridPos(QPointF pos) {
 QVector<QPointF> Grid::getPath() {
     return path;
 }
+
+void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if(game->build_mode) {
+        QPoint position = mapToGrid(event->pos());
+        int state = getState(position);
+        if((state != WALL) || state == OCCUPIED_WALL) {
+            game->build_mode = nullptr;
+            game->clearCursor();
+            return;
+        }
+        else {
+            game->build_mode->build_tower(position);
+            game->build_mode = nullptr;
+            setState(position,OCCUPIED_WALL);
+            game->clearCursor();
+        }
+    }
+}
+
+void Grid::mouseMoveEvent(QPoint pos)
+{
+    if(game->cursor) { //if cursor isn't a nullptr
+        QPoint position = mapToGrid(pos);
+        game->cursor->setPos(position);
+    }
+}
+
+QPoint Grid::mapToGrid(QPointF pos)
+{
+    int x = (int) pos.x();
+    int y = (int) pos.y();
+    x = (x/grid_width)*grid_width + grid_width/2;
+    y = (y/grid_height)*grid_height + grid_height/2;
+    return QPoint(x,y);
+}
+
