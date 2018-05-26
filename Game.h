@@ -10,6 +10,7 @@
 //default values
 const int SCREENWIDTH = 800;
 const int SCREENHEIGHT = 600;
+const int MENUWIDTH = 100;
 
 const int ENEMYTIMER = 10;
 const int PROJECTILE_TIMER = 10;

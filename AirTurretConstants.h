@@ -10,6 +10,6 @@ const int bullet_speed = 2;
 const int bullet_damage = 30;
 
 const QString button_image(":images/button.png");
-const QPointF button_position(0,80);
+const QPointF button_position(-80,80);
 
 #endif // AIRTURRETCONSTANTS_H

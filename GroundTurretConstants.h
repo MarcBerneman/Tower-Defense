@@ -1,6 +1,7 @@
 #ifndef GROUNDTURRETCONSTANTS_H
 #define GROUNDTURRETCONSTANTS_H
 
+
 const int octagon_scale_factor = 120;
 const int shooting_timer = 250;
 const QString turret_image(":images/tower.png");

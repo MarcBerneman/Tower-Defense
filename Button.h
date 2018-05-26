@@ -8,7 +8,7 @@ class Button : public myPixmapItem
 {
 public:
     Button(QString image, QPointF pos, QString cursor_image, QGraphicsItem  *parent = 0);
-    void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *) override;
     virtual void build_tower(QPointF pos) = 0;
     virtual int getOctagonScaleFactor() = 0;
 private:

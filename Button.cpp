@@ -9,7 +9,7 @@ Button::Button(QString image, QPointF pos, QString cursor_image, QGraphicsItem *
     this->cursor_image = cursor_image;
 }
 
-void Button::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void Button::mousePressEvent(QGraphicsSceneMouseEvent *) //unused parameter, so it is not given a name
 {
     game->build_mode = this;
     game->setCursor(cursor_image);

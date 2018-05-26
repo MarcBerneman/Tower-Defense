@@ -15,11 +15,16 @@ Game::Game() // inherits from QGraphicsView
 
     // Configure the Scene
     scene = new QGraphicsScene();
-    scene->setSceneRect(0,0,SCREENWIDTH,SCREENHEIGHT);
+    scene->setSceneRect(-100,0,SCREENWIDTH+100,SCREENHEIGHT);
     setScene(scene); // Associate this view to the newly created scene
 
+    //Set (0,0) of scene next to MENU
+    setTransformationAnchor(QGraphicsView::);
+    translate(-100,0);
+
+
     // Set size and disable scrollbars
-    setFixedSize(SCREENWIDTH,SCREENHEIGHT);
+    setFixedSize(SCREENWIDTH+100,SCREENHEIGHT);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
