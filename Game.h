@@ -55,6 +55,7 @@ private slots:
     void enemy_reached_end(Enemy *e);
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // GAME_H

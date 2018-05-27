@@ -5,6 +5,7 @@
 #include "sellTurretButton.h"
 
 #include <QTextStream>
+#include <QDebug>
 
 Game::Game() // inherits from QGraphicsView
 {
@@ -102,6 +103,14 @@ void Game::mouseMoveEvent(QMouseEvent *event) //GraphicsView coordinates have to
         grid->mouseMoveEvent(grid_coordinates); // inside game attach to grid
     else if(cursor)
         cursor->setPos(grid_coordinates); // in menu can be freefloating
+}
+
+void Game::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == 16777216) {//esc
+        build_mode = nullptr;
+        clearCursor();
+    }
 }
 
 void Game::enemy_killed(Enemy * e)
