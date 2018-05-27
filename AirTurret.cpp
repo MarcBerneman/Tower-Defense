@@ -12,5 +12,5 @@ AirTurret::AirTurret(QPointF pos) : Tower(octagon_scale_factor,shooting_timer,po
 
 void AirTurret::spawn_projectile()
 {
-    new Projectile(projectile_image,bullet_speed,bullet_damage,this);
+    new Projectile(projectile_image,bullet_speed,bullet_damage,this,true);
 }

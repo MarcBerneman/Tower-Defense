@@ -10,7 +10,7 @@ class Enemy : public QObject, public myPixmapItem
 {
     Q_OBJECT
 public:
-    Enemy(QString image, double speed, int health, QGraphicsItem * parent = 0);
+    Enemy(QString image, QVector<QPointF> path, double speed, int health, QGraphicsItem * parent = 0);
     ~Enemy();
     void rotateToPoint(QPointF p);
     QPointF getDest() const;
@@ -19,15 +19,20 @@ public:
     HealthBar *getHealthBar() const;
     int getCash_value() const;
     void setCash_value(int value);
+
+    QList<Enemy *> *getGroup() const;
+    void setGroup(QList<Enemy *> *value);
+
 signals:
-    void killed();
-    void reachedEnd();
+    void killed(Enemy * e);
+    void reachedEnd(Enemy * e);
 public slots:
     void move();
 private:
     double speed;
     HealthBar * hp;
     int cash_value = 0;
+    QList<Enemy *> * group = nullptr;
 
     QVector<QPointF> path;
     QPointF dest;

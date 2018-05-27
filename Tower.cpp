@@ -66,7 +66,7 @@ void Tower::find_target()
 QPolygonF Tower::makeOctagon(QPointF pos, int octagon_scalefactor)
 {
     // Code based on tutorial
-
+    
     QVector<QPointF> points;
     points << QPointF(1,0) << QPointF(2,0) << QPointF(3,1) << QPointF(3,2) << QPointF(2,3) << QPointF(1,3) << QPointF(0,2) << QPointF(0,1);
     for(int i = 0; i < points.length() ; i++)

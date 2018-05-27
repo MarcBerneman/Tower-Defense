@@ -39,7 +39,10 @@ SOURCES += \
     AirTurretButton.cpp \
     Grid.cpp \
     TowerButton.cpp \
-    Inventory.cpp
+    Inventory.cpp \
+    GameHandler.cpp \
+    pushButton.cpp \
+    sellTurretButton.cpp
 HEADERS += \
     Game.h \
     Tower.h \
@@ -57,7 +60,11 @@ HEADERS += \
     AirTurretConstants.h \
     Grid.h \
     TowerButton.h \
-    Inventory.h
+    Inventory.h \
+    GameHandler.h \
+    pushButton.h \
+    sellTurretButton.h \
+    sellTurretConstants.h
 
 RESOURCES += \
     recourses.qrc

@@ -1,13 +1,10 @@
 #include "Game.h"
-#include "GroundEnemy.h"
-#include "AirEnemy.h"
-#include "GroundTurret.h"
-#include "AirTurret.h"
-#include "TowerButton.h"
 #include "GroundTurretButton.h"
 #include "AirTurretButton.h"
-#include <QTextStream>
+#include "Tower.h"
+#include "sellTurretButton.h"
 
+#include <QTextStream>
 
 Game::Game() // inherits from QGraphicsView
 {
@@ -27,44 +24,32 @@ Game::Game() // inherits from QGraphicsView
     cursor = nullptr;
     build_mode = nullptr;
 
-    setGrid(":textfiles/map.txt");
-    initialise_walls();
+    grid = new Grid(":textfiles/map.txt");
+    grid->paintWalls(scene);
     scene->addItem(grid);
 
     inventory = new Inventory();
     inventory->setPos(-240,SCREENHEIGHT-120);
     inventory->setCash(1000);
     inventory->setLives(5);
-    inventory->printInventory();
     scene->addItem(inventory);
-}
 
-void Game::setGrid(QString filename)
-{
-    QFile file(filename);
-    file.open(QIODevice::ReadOnly);
-    QTextStream in(&file);
-    in >> M_GRID;
-    in >> N_GRID;
-    int nr_path_points;
-    in >> nr_path_points;
-    grid_width = SCREENWIDTH/M_GRID;
-    grid_height = SCREENHEIGHT/N_GRID;
+    ground_path = getPath(":textfiles/groundpath.txt");
+    air_path = getPath(":textfiles/airpath.txt");
 
-    grid = new Grid(N_GRID,M_GRID);
-    int value;
-    for(int i = 0 ; i < N_GRID*M_GRID ; i++) {
-        in >> value;
-        grid->set(i,value);
-    }
-    grid->setPathFromGrid(nr_path_points);
+    handler = new GameHandler();
+
+    nextWaveButton = new pushButton();
+    nextWaveButton->setPos(-240,SCREENHEIGHT-240);
+    nextWaveButton->setText("Next Wave");
+    scene->addItem(nextWaveButton);
+    connect(nextWaveButton,SIGNAL(buttonPressed()),handler,SLOT(spawnWave()));
 }
 
 void Game::start_game() {
     new GroundTurretButton();
     new AirTurretButton();
-    ground_enemies << new GroundEnemy();
-    air_enemies << new AirEnemy();
+    sellButton = new sellTurretButton();
 }
 
 
@@ -82,22 +67,32 @@ void Game::clearCursor()
     cursor = nullptr;
 }
 
-void Game::initialise_walls()
-{
-    for(int i = 0 ; i < N_GRID ; i++)
-        for(int j = 0 ; j < M_GRID ; j++)
-            if(grid->get(i,j) == WALL) {
-                QGraphicsRectItem * cell = new QGraphicsRectItem(j*grid_width,i*grid_height,grid_width,grid_height);
-                cell->setPen(Qt::NoPen);
-                cell->setBrush(Qt::Dense3Pattern);
-                scene->addItem(cell);
-            }
-}
-
 QPoint Game::mapToGridRectItem(QPoint pos)
 {
     QPoint out = pos - QPoint(MENUWIDTH,0);
     return out;
+}
+
+QVector<QPointF> Game::getPath(QString filename)
+{
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QTextStream in(&file);
+    int nr_path_points;
+    in >> nr_path_points;
+    QVector<QPointF> out;
+    int x,y;
+    for(int i = 0 ; i < nr_path_points ; i++) {
+        in >> x;
+        in >> y;
+        out << grid->getCoordinates(y,x);
+    }
+    return out;
+}
+
+TowerButton *Game::getSellButton() const
+{
+    return sellButton;
 }
 
 void Game::mouseMoveEvent(QMouseEvent *event) //GraphicsView coordinates have to be shifted in order to be correctly interpreted
@@ -109,23 +104,16 @@ void Game::mouseMoveEvent(QMouseEvent *event) //GraphicsView coordinates have to
         cursor->setPos(grid_coordinates); // in menu can be freefloating
 }
 
-int Game::getGrid_width() const
+void Game::enemy_killed(Enemy * e)
 {
-    return grid_width;
+    inventory->addCash(e->getCash_value());
+    delete e;
 }
 
-int Game::getGrid_height() const
+void Game::enemy_reached_end(Enemy * e)
 {
-    return grid_height;
+    inventory->removeLife();
+    delete e;
 }
 
-int Game::getM_GRID() const
-{
-    return M_GRID;
-}
-
-int Game::getN_GRID() const
-{
-    return N_GRID;
-}
 

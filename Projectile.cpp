@@ -34,10 +34,6 @@ void Projectile::move()
         e->reduceHP(damage);
         scene()->removeItem(this);
         delete this;
-        if(e->getHealthBar()->getHP() <= 0) {
-            vulnerable_enemies->removeOne(e);
-            delete e;
-        }
         return;
     }
     if(outOfBounds()) {

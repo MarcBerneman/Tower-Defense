@@ -1,11 +1,12 @@
 #include "GroundEnemy.h"
 
-const QString image(":images/enemy.png");
-const double enemy_speed = 1.3;
-const int health = 300;
-const int cash_val = 200;
+const QString image(":images/ground_enemy.png");
+const double enemy_speed = 1.2;
+const int health = 500;
+const int cash_val = 100;
 
-GroundEnemy::GroundEnemy() : Enemy(image,enemy_speed,health)
+GroundEnemy::GroundEnemy(QList<Enemy*> * group, QVector<QPointF> path) : Enemy(image,path,enemy_speed,health)
 {
     setCash_value(cash_val);
+    setGroup(group);
 }

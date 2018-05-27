@@ -6,7 +6,7 @@
 class AirEnemy : public Enemy
 {
 public:
-    AirEnemy();
+    AirEnemy(QList<Enemy *> *group, QVector<QPointF> path);
 };
 
 #endif // AIRENEMY_H

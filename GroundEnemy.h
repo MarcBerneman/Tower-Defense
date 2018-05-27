@@ -6,7 +6,7 @@
 class GroundEnemy : public Enemy
 {
 public:
-    GroundEnemy();
+    GroundEnemy(QList<Enemy *> *group, QVector<QPointF> path);
 };
 
 #endif // GROUNDENEMY_H

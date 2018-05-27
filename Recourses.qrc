@@ -4,8 +4,15 @@
         <file>button.png</file>
         <file>enemy.png</file>
         <file>tower.png</file>
+        <file>air_enemy.png</file>
+        <file>air_turret.png</file>
+        <file>ground_enemy.png</file>
+        <file>ground_turret.png</file>
+        <file>sell.png</file>
     </qresource>
     <qresource prefix="/textfiles">
         <file>map.txt</file>
+        <file>airpath.txt</file>
+        <file>groundpath.txt</file>
     </qresource>
 </RCC>

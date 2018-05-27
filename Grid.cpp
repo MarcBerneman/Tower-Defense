@@ -1,20 +1,53 @@
 #include "Grid.h"
 #include "Game.h"
+#include <QTextStream>
 
 extern Game * game;
 
-Grid::Grid(int N_GRID, int M_GRID)
+Grid::Grid(QString filename)
 {
-    this->N_GRID = N_GRID;
-    this->M_GRID = M_GRID;
+    // defaults
+    N_GRID = 5;
+    M_GRID = 10;
     grid_width = SCREENWIDTH/M_GRID;
     grid_height = SCREENHEIGHT/N_GRID;
-    initialize_grid();
+    setGrid(filename);
     setRect(0,0,SCREENWIDTH,SCREENHEIGHT);
     setPen(Qt::NoPen);
 }
 
-void Grid::initialize_grid()
+void Grid::setGrid(QString filename)
+{
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QTextStream in(&file);
+    in >> M_GRID;
+    in >> N_GRID;
+    grid_width = SCREENWIDTH/M_GRID;
+    grid_height = SCREENHEIGHT/N_GRID;
+
+    grid.resize(N_GRID*M_GRID);
+    int value;
+    for(int i = 0 ; i < N_GRID*M_GRID ; i++) {
+        in >> value;
+        set(i,value);
+    }
+}
+
+
+void Grid::paintWalls(QGraphicsScene * scene)
+{
+    for(int i = 0 ; i < N_GRID ; i++)
+        for(int j = 0 ; j < M_GRID ; j++)
+            if(get(i,j) == WALL) {
+                QGraphicsRectItem * cell = new QGraphicsRectItem(j*grid_width,i*grid_height,grid_width,grid_height);
+                cell->setPen(Qt::NoPen);
+                cell->setBrush(Qt::Dense7Pattern);
+                scene->addItem(cell);
+            }
+}
+
+void Grid::resetGrid()
 {
     grid.resize(N_GRID*M_GRID);
     for(int i = 0 ; i < N_GRID*M_GRID ; i++)
@@ -54,17 +87,6 @@ int Grid::getState(QPointF pos)
     return get(i,j);
 }
 
-void Grid::setPathFromGrid(int nr_points) {
-    path.clear();
-    path.resize(nr_points);
-    for(int i = 0 ; i < N_GRID; i++)
-        for(int j = 0 ; j < M_GRID; j++) {
-            int val = get(i,j);
-            if(val >= SPAWN)
-                path.replace(val-SPAWN,getCoordinates(i,j));
-        }
-}
-
 QPointF Grid::getCoordinates(int i, int j) {
     double x = (double)grid_width*((double)j+0.5);
     double y = (double)grid_height*((double)i+0.5);
@@ -77,26 +99,31 @@ QPoint Grid::getGridPos(QPointF pos) {
     return QPoint(i,j);
 }
 
-QVector<QPointF> Grid::getPath() {
-    return path;
-}
 
 void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if(game->build_mode) {
         QPoint position = mapToGrid(event->pos());
         int state = getState(position);
-        if((state != WALL) || state == OCCUPIED_WALL) {
-            game->build_mode = nullptr;
-            game->clearCursor();
-            return;
+        bool selling = game->build_mode == game->getSellButton();
+        if(selling && state == OCCUPIED_WALL) {
+            for(int i = 0 ; i < game->towers.length() ; i++)
+                if(game->cursor->collidesWithItem(game->towers.at(i))) {
+                    Tower * t = game->towers.at(i);
+                    game->towers.removeAt(i);
+                    delete t;
+                    game->inventory->removeCash(game->build_mode->getBuild_cost());
+                    game->build_mode = nullptr;                    setState(position,WALL);
+                    break;
+                }
         }
-        else {
+        else if(!selling && state == WALL) {
             game->build_mode->build_tower(position);
-            game->build_mode = nullptr;
+            game->inventory->removeCash(game->build_mode->getBuild_cost());
             setState(position,OCCUPIED_WALL);
-            game->clearCursor();
         }
+        game->build_mode = nullptr;
+        game->clearCursor();
     }
 }
 
@@ -107,6 +134,7 @@ void Grid::mouseMoveEvent(QPoint pos)
         game->cursor->setPos(position);
     }
 }
+
 
 QPoint Grid::mapToGrid(QPointF pos)
 {

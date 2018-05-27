@@ -19,16 +19,19 @@ void Inventory::printInventory() {
 void Inventory::addCash(int cash)
 {
     this->cash += cash;
+    printInventory();
 }
 
 void Inventory::removeCash(int cash)
 {
     this->cash -= cash;
+    printInventory();
 }
 
 void Inventory::removeLife()
 {
     lives--;
+    printInventory();
 }
 
 int Inventory::getLives() const
@@ -39,6 +42,7 @@ int Inventory::getLives() const
 void Inventory::setLives(int value)
 {
     lives = value;
+    printInventory();
 }
 
 int Inventory::getCash() const
@@ -49,4 +53,5 @@ int Inventory::getCash() const
 void Inventory::setCash(int value)
 {
     cash = value;
+    printInventory();
 }

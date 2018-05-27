@@ -5,11 +5,11 @@
 
 extern Game * game;
 
-Enemy::Enemy(QString image, double speed, int health, QGraphicsItem *parent) : myPixmapItem(image,parent)
+Enemy::Enemy(QString image, QVector<QPointF> path, double speed, int health, QGraphicsItem *parent) : myPixmapItem(image,parent)
 {
     // Code based on tutorial
     this->speed = speed;
-    path = game->grid->getPath();
+    this->path = path;
     path_index = 1;
     dest = path[path_index];
     setPos(path[0]);
@@ -25,6 +25,7 @@ Enemy::Enemy(QString image, double speed, int health, QGraphicsItem *parent) : m
 
 Enemy::~Enemy()
 {
+    group->removeOne(this);
     delete hp;
 }
 
@@ -36,7 +37,7 @@ void Enemy::move()
     if(ln.length()  < 5) {
         path_index++;
         if(path_index >= path.length()) {
-            emit reachedEnd();
+            emit reachedEnd(this);
             return;
         }
         dest = path[path_index];
@@ -47,6 +48,17 @@ void Enemy::move()
     double dy = speed*qSin(qDegreesToRadians(-ln.angle()));
     setPos(x()+dx,y()+dy);
     hp->setPos(pos()-QPointF(0,HP_BAR_RELATIVE_VERTICAL_POSITION*getHeight()));
+}
+
+QList<Enemy *> *Enemy::getGroup() const
+{
+    return group;
+}
+
+void Enemy::setGroup(QList<Enemy *> *value)
+{
+    group = value;
+    group->append(this);
 }
 
 int Enemy::getCash_value() const
@@ -71,6 +83,6 @@ QPointF Enemy::getDest() const
 
 void Enemy::reduceHP(int damage) {
     hp->reduceHP(damage);
-    if(hp <= 0)
-        emit killed();
+    if(hp->getHP() <= 0)
+        emit killed(this);
 }

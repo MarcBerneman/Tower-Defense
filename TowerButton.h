@@ -11,8 +11,12 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void build_tower(QPointF pos) = 0;
     virtual int getOctagonScaleFactor() = 0;
+    int getBuild_cost() const;
+    void setBuild_cost(int value);
+
 private:
     QString cursor_image;
+    int build_cost = 0;
 };
 
 #endif // TOWERBUTTON_H

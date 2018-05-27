@@ -21,6 +21,7 @@ public:
     Enemy *getTarget() const;
     void setTarget(Enemy *value);
     QList<Enemy *> * getPotential_enemies() const;
+
 public slots:
     void shoot();
     void find_target();
