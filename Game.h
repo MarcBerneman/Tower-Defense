@@ -46,7 +46,7 @@ public:
     QPoint mapToGridRectItem(QPoint pos); // map from view to grid coordinates
 
     // getters
-    TowerButton *getSellButton() const,
+    TowerButton *getSellButton() const;
     pushButton *getNextWaveButton() const;
     pushButton *getNewGameButton() const;
 

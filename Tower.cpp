@@ -28,7 +28,7 @@ void Tower::shoot()
 {
     find_target();
     if(target) {
-        spawn_projectile();
+        spawn_projectile(); // virtual function that has to be implemented
     }
 }
 
@@ -43,7 +43,7 @@ void Tower::find_target()
     // worry about the enemies in that list.
 
     int n = potential_enemies->size();
-    double min_distance = 10000;
+    double min_distance = 100000; // big value
     Enemy * closest_enemy = nullptr;
     for(int i = 0 ; i < n ; i++) {
         Enemy * e = potential_enemies->at(i);
@@ -55,7 +55,7 @@ void Tower::find_target()
             }
         }
     }
-    if(closest_enemy) {
+    if(closest_enemy) { // if there is indeed an enemy in range
         target = closest_enemy;
     }
     else {

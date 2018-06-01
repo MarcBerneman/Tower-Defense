@@ -20,7 +20,7 @@ public:
 private:
     int speed;
     int damage;
-    Enemy * target; // a projectile can only hit it's target
+    Enemy * target; // a projectile will aim at the target but can hit all enemies it tagets (vulnerable enemies)
     double angle;
     bool homing; // homes in on the target
 

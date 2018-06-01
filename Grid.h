@@ -30,7 +30,7 @@ private:
     int grid_width;
     int grid_height;
     QVector<int> grid;
-    QPoint mapToGrid(QPointF pos); // maps a point to the center of the grid
+    QPoint mapToGridCenter(QPointF pos); // maps a point to the center of the grid
 };
 
 #endif // GRID_H

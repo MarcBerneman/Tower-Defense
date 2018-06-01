@@ -70,18 +70,18 @@ void GameHandler::startWave()
 {
     spawn_counter = 0;
     spawn_timer->start(SPAWNTIME);
-    game->getNextWaveButton()->enable(false);
+    game->getNextWaveButton()->enable(false); // cannot spawn wave while enemies still alive
 }
 
 void GameHandler::nextRound()
 {
     round++;
     if(round >= waves) {
-        game_over();
+        game_over(); // you win
         return;
     }
-    game->getNextWaveButton()->enable();
-    setNr_enemies_alive();
+    game->getNextWaveButton()->enable(); // enable to spawn next wave
+    setNr_enemies_alive(); // keep track of amount of enemies
     printGameInfo();
 }
 
@@ -92,10 +92,10 @@ void GameHandler::newGame()
     game->inventory->resetInventory();
     for(int i = 0 ; i < game->towers.length() ; i++)
         delete game->towers[i];
-    game->towers.clear();
-    game->grid->resetGrid();
+    game->towers.clear(); // remove all towers
+    game->grid->resetGrid(); // make sure you can build on all walls once again
     game->getNewGameButton()->enable(false);
-    game->getNextWaveButton()->enable();
+    game->getNextWaveButton()->enable(); // enable to spawn the first wave
 
     printGameInfo();
 }
@@ -139,7 +139,7 @@ void GameHandler::game_over()
 
 void GameHandler::setNr_enemies_alive()
 {
-    nr_enemies_alive = nr_ground_enemies[round] + nr_air_enemies[round];
+    nr_enemies_alive = nr_ground_enemies[round] + nr_air_enemies[round]; // total nr of enemies
 }
 
 void GameHandler::printGameInfo() {

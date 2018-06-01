@@ -24,6 +24,7 @@ HealthBar::~HealthBar()
 {
     game->scene->removeItem(border);
     delete border;
+     // border has children "red" and "green" so they also get deleted
 }
 
 void HealthBar::setHP(int hp)
@@ -33,7 +34,7 @@ void HealthBar::setHP(int hp)
     green->setRect(1,1,percentage*(HP_WIDTH-2),HP_HEIGHT-2);
     red->setRect(percentage*(HP_WIDTH-2)+1,1,(1-percentage)*(HP_WIDTH-2),HP_HEIGHT-2);
     if(percentage == 1)
-        red->setOpacity(0);
+        red->setOpacity(0); // would still be visible because width can't go to 0
     else
         red->setOpacity(1);
 }

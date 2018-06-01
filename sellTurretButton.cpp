@@ -15,7 +15,7 @@ sellTurretButton::sellTurretButton(QGraphicsItem * parent) : TowerButton(button_
 
 void sellTurretButton::build_tower(QPointF)
 {
-    return;
+    return; // don't build anyting
 }
 
 int sellTurretButton::getOctagonScaleFactor()

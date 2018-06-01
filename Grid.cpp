@@ -52,7 +52,7 @@ void Grid::resetGrid()
     grid.resize(N_GRID*M_GRID);
     for(int i = 0 ; i < N_GRID*M_GRID ; i++)
         if(grid.at(i) == OCCUPIED_WALL)
-            grid.replace(i,WALL);
+            grid.replace(i,WALL); // make sure you can build towers on walls where there were towers before
 }
 
 void Grid::set(int i, int j, int value)
@@ -88,13 +88,13 @@ int Grid::getState(QPointF pos)
     return get(i,j);
 }
 
-QPointF Grid::getCoordinates(int i, int j) {
+QPointF Grid::getCoordinates(int i, int j) { // center of grid
     double x = (double)grid_width*((double)j+0.5);
     double y = (double)grid_height*((double)i+0.5);
     return QPointF(x,y);
 }
 
-QPoint Grid::getGridPos(QPointF pos) {
+QPoint Grid::getGridPos(QPointF pos) { // grid number (not coordinates)
     int i = pos.y()/grid_height;
     int j = pos.x()/grid_width;
     return QPoint(i,j);
@@ -103,22 +103,25 @@ QPoint Grid::getGridPos(QPointF pos) {
 
 void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if(game->build_mode) {
-        QPoint position = mapToGrid(event->pos());
+    if(game->build_mode) { // if you are building something or selling
+        QPoint position = mapToGridCenter(event->pos()); // build at the center of the grid
         int state = getState(position);
         bool selling = game->build_mode == game->getSellButton();
-        if(selling && state == OCCUPIED_WALL) {
+        if(selling && state == OCCUPIED_WALL) { // selling and clicking on a wall with a tower
             for(int i = 0 ; i < game->towers.length() ; i++)
                 if(game->cursor->collidesWithItem(game->towers.at(i))) {
                     Tower * t = game->towers.at(i);
                     game->towers.removeAt(i);
                     delete t;
                     game->inventory->removeCash(game->build_mode->getBuild_cost());
-                    game->build_mode = nullptr;                    setState(position,WALL);
+                    // buildcost of selling is negative
+                    // this way you always have sufficient cash to sell, or else you can't click on the button
+                    game->build_mode = nullptr;
+                    setState(position,WALL); // you can build on this wall again
                     break;
                 }
         }
-        else if(!selling && state == WALL) {
+        else if(!selling && state == WALL) { // not selling and wall doesn't have a tower
             game->build_mode->build_tower(position);
             game->inventory->removeCash(game->build_mode->getBuild_cost());
             setState(position,OCCUPIED_WALL);
@@ -131,13 +134,13 @@ void Grid::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void Grid::mouseMoveEvent(QPoint pos)
 {
     if(game->cursor) { //if cursor isn't a nullptr
-        QPoint position = mapToGrid(pos);
+        QPoint position = mapToGridCenter(pos);
         game->cursor->setPos(position);
     }
 }
 
 
-QPoint Grid::mapToGrid(QPointF pos)
+QPoint Grid::mapToGridCenter(QPointF pos) // center of grid
 {
     int x = (int) pos.x();
     int y = (int) pos.y();
