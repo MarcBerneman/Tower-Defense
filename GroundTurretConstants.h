@@ -2,7 +2,7 @@
 #define GROUNDTURRETCONSTANTS_H
 
 
-const int octagon_scale_factor = 100;
+const int octagon_scale_factor = 100; // range of turret
 const int shooting_timer = 500;
 const QString turret_image(":images/ground_turret.png");
 

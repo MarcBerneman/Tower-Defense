@@ -14,5 +14,6 @@
         <file>map.txt</file>
         <file>airpath.txt</file>
         <file>groundpath.txt</file>
+        <file>spawnrate.txt</file>
     </qresource>
 </RCC>

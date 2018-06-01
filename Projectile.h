@@ -20,12 +20,12 @@ public:
 private:
     int speed;
     int damage;
-    Enemy * target;
+    Enemy * target; // a projectile can only hit it's target
     double angle;
-    bool homing;
+    bool homing; // homes in on the target
 
     QTimer * timer;
-    QList<Enemy *> * vulnerable_enemies;
+    QList<Enemy *> * vulnerable_enemies; // can only target certain enemies
 private slots:
     void move();
     virtual void setAngle();

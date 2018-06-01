@@ -4,6 +4,15 @@
 Inventory::Inventory()
 {
     setFont(QFont("Calibri",24,QFont::Bold));
+    resetInventory();
+}
+
+void Inventory::setDefaults(int cash, int lives)
+{
+    default_cash = cash;
+    default_lives = lives;
+    setCash(cash);
+    setLives(lives);
 }
 
 void Inventory::printInventory() {
@@ -31,6 +40,13 @@ void Inventory::removeCash(int cash)
 void Inventory::removeLife()
 {
     lives--;
+    printInventory();
+}
+
+void Inventory::resetInventory()
+{
+    lives = default_lives;
+    cash = default_cash;
     printInventory();
 }
 

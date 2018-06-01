@@ -51,7 +51,8 @@ void Grid::resetGrid()
 {
     grid.resize(N_GRID*M_GRID);
     for(int i = 0 ; i < N_GRID*M_GRID ; i++)
-        grid.replace(i,UNOCCUPIED);
+        if(grid.at(i) == OCCUPIED_WALL)
+            grid.replace(i,WALL);
 }
 
 void Grid::set(int i, int j, int value)

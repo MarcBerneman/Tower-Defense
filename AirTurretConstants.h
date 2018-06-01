@@ -1,7 +1,7 @@
 #ifndef AIRTURRETCONSTANTS_H
 #define AIRTURRETCONSTANTS_H
 
-const int octagon_scale_factor = 133;
+const int octagon_scale_factor = 133; // range of turret
 const int shooting_timer = 750;
 const QString turret_image(":images/air_turret.png");
 

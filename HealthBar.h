@@ -16,6 +16,7 @@ class HealthBar
 public:
     HealthBar(int tot_hp);
     ~HealthBar();
+    // getters and setters
     void setHP(int hp);
     void reduceHP(int damage);
     int getHP() const;

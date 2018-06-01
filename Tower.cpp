@@ -21,6 +21,7 @@ Tower::Tower(int octagon_scalefactor, int shooting_timer, QPointF position, QStr
     connect(timer,SIGNAL(timeout()),this,SLOT(shoot()));
     timer->start(shooting_timer);
 
+    attack_zone->hide(); // doesn't look good
 }
 
 void Tower::shoot()

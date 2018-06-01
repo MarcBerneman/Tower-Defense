@@ -28,7 +28,7 @@ public slots:
 private:
     QGraphicsPolygonItem * attack_zone;
     Enemy * target;
-    QList<Enemy *> * potential_enemies;
+    QList<Enemy *> * potential_enemies; // turret has specific targets
 };
 
 #endif // TOWER_H

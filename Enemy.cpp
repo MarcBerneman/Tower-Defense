@@ -25,8 +25,8 @@ Enemy::Enemy(QString image, QVector<QPointF> path, double speed, int health, QGr
 
 Enemy::~Enemy()
 {
-    group->removeOne(this);
-    delete hp;
+    group->removeOne(this); // remove from the list
+    delete hp; // delete the HP bar
 }
 
 void Enemy::move()
@@ -37,7 +37,7 @@ void Enemy::move()
     if(ln.length()  < 5) {
         path_index++;
         if(path_index >= path.length()) {
-            emit reachedEnd(this);
+            emit reachedEnd(this); // this enemy has reached the end
             return;
         }
         dest = path[path_index];
@@ -58,7 +58,7 @@ QList<Enemy *> *Enemy::getGroup() const
 void Enemy::setGroup(QList<Enemy *> *value)
 {
     group = value;
-    group->append(this);
+    group->append(this); // add to the list
 }
 
 int Enemy::getCash_value() const
@@ -84,5 +84,5 @@ QPointF Enemy::getDest() const
 void Enemy::reduceHP(int damage) {
     hp->reduceHP(damage);
     if(hp->getHP() <= 0)
-        emit killed(this);
+        emit killed(this); // this enemy has died
 }

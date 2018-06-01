@@ -19,7 +19,7 @@ AirTurretButton::AirTurretButton(QGraphicsItem *parent) : TowerButton(button_ima
 
 void AirTurretButton::build_tower(QPointF pos)
 {
-    game->towers.append(new AirTurret(pos));
+    game->towers.append(new AirTurret(pos)); //add to the total list of towers
 }
 
 int AirTurretButton::getOctagonScaleFactor()

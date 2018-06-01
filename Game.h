@@ -24,7 +24,7 @@ class Game : public QGraphicsView
     Q_OBJECT
 public:
     Game();
-    GameHandler * handler;
+    GameHandler * handler; // handles the rounds, waves, reset, ...
     QGraphicsScene * scene;
     myPixmapItem * cursor;
 
@@ -34,21 +34,26 @@ public:
     QVector<QPointF> ground_path;
     QVector<QPointF> air_path;
 
-    QVector<Tower *> towers;
+    QVector<Tower *> towers; // to keep track of the towers on the map
+
+    Inventory * inventory;
+    Grid * grid;
+    TowerButton * build_mode; // selling or building a tower
 
     void start_game();
     void setCursor(QString image);
     void clearCursor();
-    QPoint mapToGridRectItem(QPoint pos);
+    QPoint mapToGridRectItem(QPoint pos); // map from view to grid coordinates
 
-    Inventory * inventory;
-    Grid * grid;
-    TowerButton * build_mode;
-    TowerButton *getSellButton() const;
+    // getters
+    TowerButton *getSellButton() const,
+    pushButton *getNextWaveButton() const;
+    pushButton *getNewGameButton() const;
 
 private:
-    QVector<QPointF> getPath(QString filename);
+    QVector<QPointF> getPath(QString filename); // get path from textfile
     pushButton * nextWaveButton;
+    pushButton * newGameButton;
     TowerButton * sellButton;
 private slots:
     void enemy_killed(Enemy *e);
